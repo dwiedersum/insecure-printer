@@ -11,5 +11,3 @@ To show off my epic PHP skillz.
 Copyright © 2016 Dennis Wiedersum
 
 Distributed under the MIT License, see `LICENSE`
-# insecure-printer
-# insecure-printer
