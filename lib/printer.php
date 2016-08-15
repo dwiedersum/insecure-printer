@@ -25,43 +25,21 @@ function create_new_file_from_old_file($old_directory, $old_extension, $new_exte
     return $text;
 }
 
-function print_line_of_file($filedirectory, $fileextension, $linenumber){
+function array_of_lines_from_file($filedirectory, $fileextension){
     $textcontent = fopen($filedirectory . $fileextension, 'r');
     while(!feof($textcontent)){
-        $lines[] = trim(fgets($textcontent));
+        $line_array[] = trim(fgets($textcontent));
     }
+    $line_array = array_filter($line_array);
     fclose($textcontent);
 
-    return $lines[$linenumber];
+    return $line_array;
 }
 
-function implode_array_of_lines_of_file($filedirectory, $fileextension){
-    $textcontent = fopen($filedirectory . $fileextension, 'r');
-    while(!feof($textcontent)){
-        $lines[] = fgets($textcontent);
-    }
-    $text = implode("", $lines);
-    fclose($textcontent);
-
-    return $text;
-}
-
-function count_lines_of_file($filedirectory, $fileextension){
-    $textcontent = fopen($filedirectory . $fileextension, 'r');
-    while(!feof($textcontent)){
-        $lines[] = fgets($textcontent);
-    }
-    $count_of_lines = count(array_filter($lines));
-    fclose($textcontent);
-
-    return $count_of_lines;
-}
-
-function overwrite_file_content($filedirectory, $fileextension, $word, $number_of_whitespaces, $linenumber){
+function overwrite_file_content($filedirectory, $fileextension, $word, $number_of_whitespaces){
     $textcontent = fopen($filedirectory . $fileextension, 'a+');
-    fwrite($textcontent, insecure_text($word, $number_of_whitespaces));
-    $text = print_line_of_file($filedirectory, $fileextension, $linenumber);
+    $text = insecure_text($word, $number_of_whitespaces);
+    fwrite($textcontent, $text);
     fclose($textcontent);
-
-    return $text;
+        return $text;
 }
