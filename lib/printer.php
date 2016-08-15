@@ -7,7 +7,7 @@ function pad_left_and_right($word, $number_of_whitespaces){
     return $whitespace_string . $word . $whitespace_string;
 }
 
-function insecure_text($word, $number_of_whitespaces){
+function insecure_text($word, $number_of_whitespaces = 5){
     $insecure_string = "Ich wollte sagen:" . pad_left_and_right($word, $number_of_whitespaces) . "wenn es dir recht ist.\n";
 
     return $insecure_string;
@@ -25,20 +25,19 @@ function create_new_file_from_old_file($old_directory, $old_extension, $new_exte
     return $text;
 }
 
-function array_of_lines_from_file($filedirectory, $fileextension){
+function array_of_lines_from_file($filedirectory, $fileextension, $key = ''){
     $textcontent = fopen($filedirectory . $fileextension, 'r');
     while(!feof($textcontent)){
         $line_array[] = trim(fgets($textcontent));
     }
     $line_array = array_filter($line_array);
     fclose($textcontent);
-
-    return $line_array;
+        return $line_array;
 }
 
-function overwrite_file_content($filedirectory, $fileextension, $word, $number_of_whitespaces){
+function overwrite_file_content($filedirectory, $fileextension, $word){
     $textcontent = fopen($filedirectory . $fileextension, 'a+');
-    $text = insecure_text($word, $number_of_whitespaces);
+    $text = insecure_text($word);
     fwrite($textcontent, $text);
     fclose($textcontent);
         return $text;

@@ -16,13 +16,11 @@ $new_fileextension = ".TEXT";
 $new_filedirectory = "./print_insecure";
 $added_name = "_insecure";
 
-$number_of_whitespaces = 5;
-
 /**Create a new file and write the desired text in it:
 * "Ich wollte sagen:     line_of_the_old_textfile     wenn es dir recht ist."
 * also displaying the text on the command line.*/
 $line_array = p\array_of_lines_from_file($old_filedirectory, $old_fileextension);
 foreach ($line_array as $linetext){
-    $text .= p\overwrite_file_content($new_filedirectory, $new_fileextension, $linetext, $number_of_whitespaces);
+    $text .= p\overwrite_file_content($new_filedirectory, $new_fileextension, $linetext);
 }
 echo $text;

@@ -18,6 +18,8 @@ class printer_testcase extends TestCase {
     public function test_insecure_text(){
         $this->assertEquals("Ich wollte sagen:     Hallo     wenn es dir recht ist.\n",
                             printer\insecure_text("Hallo", 5));
+        $this->assertEquals("Ich wollte sagen:     Hallo     wenn es dir recht ist.\n",
+                                                printer\insecure_text("Hallo"));
     }
 
     public function test_create_new_file_from_old_file(){
@@ -28,19 +30,11 @@ class printer_testcase extends TestCase {
     public function test_array_of_lines_from_text_file(){
         $this->assertEquals("was ich",
                             printer\array_of_lines_from_file("/source/insecure_printer/bin/print",
-                            ".txt", 2));
+                            ".txt", 0)[2]);
     }
 
-    public function test_count_lines_of_file(){
-        $this->assertEquals(4, printer\count_lines_of_file("../bin/print", ".txt"));
+    public function test_overwrite_file_content(){
+        $this->assertEquals("Ich wollte sagen:     Hallo     wenn es dir recht ist.\n",
+                            printer\overwrite_file_content("/source/insecure_printer/bin/print", ".txt", "Hallo", 5, 4));
     }
-
-    //public function test_print_lines(){
-    //    $this->assertEquals("Hallo\nich weiss\nwas ich\nmache\n", printer\print_lines("../bin/print", ".txt"));
-    //}
-
-    //public function test_overwrite_file_content(){
-    //    $this->assertEquals("Ich wollte sagen:     Hallo     wenn es dir recht ist.",
-    //                        printer\overwrite_file_content("/source/insecure_printer/bin/print", ".txt", "Hallo", 5, 4));
-    //}
 }
