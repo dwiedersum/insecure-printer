@@ -19,6 +19,23 @@ function file_extension($filedirectory){
     return $fileextension;
 }
 
+function activate_interactive_mode(){
+    $options = getopt("text.txt");
+    if ($options == true){
+        passthru("php -a");
+        var_dump($argv);
+        return true;
+    }else{
+        echo "nein\n";
+        return false;
+    }
+}
+
+function input_of_fileextension_via_interactive_shell(){
+    $input = activate_interactive_mode();
+
+}
+
 function extension_query(){
     $extension = readline("Unter welcher Extension soll die Datei gespeichert werden?\n");
     readline_add_history($extension);
