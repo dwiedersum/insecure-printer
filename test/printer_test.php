@@ -22,14 +22,14 @@ class printer_testcase extends TestCase {
                                                 printer\insecure_text("Hallo"));
     }
 
-    public function test_create_new_file_from_old_file(){
-        $this->assertEquals(true,
-                            printer\create_new_file_from_old_file("../bin/print", ".txt", ".text", "_insecure"));
+    public function test_file_extension(){
+        $this->assertEquals(".txt",
+                            printer\file_extension("C:/Projektordner/insecure_printer/bin/print.txt"));
     }
 
     public function test_array_of_lines_from_text_file(){
         $this->assertEquals("was ich",
-                            printer\array_of_lines_from_file("/source/insecure_printer/bin/print",
+                            printer\array_of_lines_from_file("/source/insecure_printer/bin/print.txt",
                             ".txt", 0)[2]);
     }
 

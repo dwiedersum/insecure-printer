@@ -13,25 +13,14 @@ function insecure_text($word, $number_of_whitespaces = 5){
     return $insecure_string;
 }
 
-function create_new_file_from_old_file($old_directory, $old_extension, $new_extension, $added_name){
-    $new_directory = $old_directory.$added_name;
-    copy($old_directory . $old_extension, $new_directory . $new_extension);
-    if (!copy($old_directory . $old_extension, $new_directory . $new_extension)){
-        $text = false;
-    }else{
-        $text = true;
-    }
-
-    return $text;
+function file_extension($filedirectory){
+    $fileextension = pathinfo($filedirectory, PATHINFO_EXTENSION);
+    $fileextension = "." . $fileextension;
+    return $fileextension;
 }
 
-function array_of_lines_from_file($filedirectory, $fileextension, $key = ''){
-    $textcontent = fopen($filedirectory . $fileextension, 'r');
-    while(!feof($textcontent)){
-        $line_array[] = trim(fgets($textcontent));
-    }
-    $line_array = array_filter($line_array);
-    fclose($textcontent);
+function array_of_lines_from_file($filedirectory, $key = ''){
+    $line_array = file($filedirectory, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
         return $line_array;
 }
 
