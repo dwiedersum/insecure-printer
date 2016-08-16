@@ -19,6 +19,24 @@ function file_extension($filedirectory){
     return $fileextension;
 }
 
+function extension_query(){
+    $extension = readline("Unter welcher Extension soll die Datei gespeichert werden?\n");
+    readline_add_history($extension);
+    if ($extension[0] == "."){
+        return $extension;
+    }elseif (strlen($extension) == 0){
+        $error = "Es wurde keine Eingabe erkannt.\n";
+        return $error;
+    }elseif (strlen($extension) >= 5){
+        $error = "Die Eingabe ist ungültig.\n";
+        return $error;
+    }else{
+        $extension = "." . $extension;
+        return $extension;
+    }
+
+}
+
 function array_of_lines_from_file($filedirectory, $key = ''){
     $line_array = file($filedirectory, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
         return $line_array;

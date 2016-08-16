@@ -22,9 +22,9 @@ class printer_testcase extends TestCase {
                                                 printer\insecure_text("Hallo"));
     }
 
-    public function test_file_extension(){
-        $this->assertEquals(".txt",
-                            printer\file_extension("C:/Projektordner/insecure_printer/bin/print.txt"));
+    public function test_extension_query(){
+        $this->assertEquals("Die Eingabe ist ungültig.",
+                            printer\extension_query());
     }
 
     public function test_array_of_lines_from_text_file(){
