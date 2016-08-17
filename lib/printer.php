@@ -22,14 +22,18 @@ function file_extension($filedirectory){
 
 function input_of_filename_via_interactive_shell($filedirectory){
     $full_filename = getopt("i:");
-    $filepath = pathinfo($filedirectory, PATHINFO_DIRNAME) . "/";
-    if(file_exists($filepath . $full_filename[i]) == true){
+    if(strpos($full_filename[i], ".") == false){
+        echo "Bitte geben Sie den vollständigen Namen der Datei an.\n";
+        return false;
+
+    }elseif(file_exists($filedirectory . $full_filename[i]) == true && !empty($full_filename[i])){
         $filename_array = explode(".", $full_filename[i]);
-        $filename = $filename_array[0];
-        return $filename;
+        return $filename_array;
+
     }else{
         echo "Datei konnte nicht gefunden werden.\n";
         return false;
+
     }
 }
 
@@ -43,12 +47,13 @@ function extension_query(){
         echo "Die Eingabe ist ungültig.\n";
         return false;
     }elseif ($extension[0] == "."){
+        echo "Die Datei wurde erstellt.\n";
         return $extension;
     }else{
         $extension = "." . $extension;
+        echo "Die Datei wurde erstellt.\n";
         return $extension;
     }
-
 }
 
 function array_of_lines_from_file($filedirectory, $key = ''){
@@ -56,8 +61,8 @@ function array_of_lines_from_file($filedirectory, $key = ''){
         return $line_array;
 }
 
-function overwrite_file_content($filedirectory, $fileextension, $word){
-    $textcontent = fopen($filedirectory . $fileextension, 'a+');
+function overwrite_file_content($filedirectory, $fileextension, $word, $writerights = 'a+'){
+    $textcontent = fopen($filedirectory . $fileextension, $writerights);
     $text = insecure_text($word);
     fwrite($textcontent, $text);
     fclose($textcontent);
