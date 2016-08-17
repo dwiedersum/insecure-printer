@@ -20,20 +20,16 @@ function file_extension($filedirectory){
     return $fileextension;
 }
 
-function input_of_filename_via_interactive_shell(){
+function input_of_filename_via_interactive_shell($filedirectory){
     $full_filename = getopt("i:");
-    if (strlen($full_filename[i]) == 0){
-        $error = "Es wurde keine Eingabe erkannt.\n";
-        echo $error;
-        return false;
-    }elseif(strpos($full_filename[i], ".") == false){
-        $error = "Die Eingabe ist ungültig.\n";
-        echo $error;
-        return false;
-    }elseif(strpos($full_filename[i], ".") !== false){
+    $filepath = pathinfo($filedirectory, PATHINFO_DIRNAME) . "/";
+    if(file_exists($filepath . $full_filename[i]) == true){
         $filename_array = explode(".", $full_filename[i]);
         $filename = $filename_array[0];
         return $filename;
+    }else{
+        echo "Datei konnte nicht gefunden werden.\n";
+        return false;
     }
 }
 
@@ -41,12 +37,10 @@ function extension_query(){
     $extension = readline("Unter welcher Extension soll die Datei gespeichert werden?\n");
     readline_add_history($extension);
     if (strlen($extension) == 0){
-        $error = "Es wurde keine Eingabe erkannt.\n";
-        echo $error;
+        echo "Es wurde keine Eingabe erkannt.\n";
         return false;
     }elseif (strlen($extension) >= 5){
-        $error = "Die Eingabe ist ungültig.\n";
-        echo $error;
+        echo "Die Eingabe ist ungültig.\n";
         return false;
     }elseif ($extension[0] == "."){
         return $extension;

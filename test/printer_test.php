@@ -29,7 +29,7 @@ class printer_testcase extends TestCase {
 
     public function test_input_of_filename_via_interactive_shell(){
         $this->assertEquals(false,
-                            printer\input_of_filename_via_interactive_shell());
+                            printer\input_of_filename_via_interactive_shell("/source/insecure_printer/bin/print.txt"));
     }
 
     public function test_file_extension(){

@@ -4,16 +4,18 @@ require("../lib/printer.php");
 
 use printer as p;
 
-//Define directory of the textfile
+//Define the directory of the textfile
 $old_filedirectory = "/source/insecure_printer/bin/print.txt";
 
-//Define the new filename and directory w/o extension needed
+//Define the new directory
 $new_filedirectory = "/source/insecure_printer/bin/";
 
-/**Create a new file and write the desired text in it:
+/**To start the creation of the new file write:
+* 'php insecure_printer.php -i "filename"' in commandline
+* Create a new file via interactive shell query and write the text in it:
 * "Ich wollte sagen:     line_of_the_old_textfile     wenn es dir recht ist."
 * also displaying the text on the command line.*/
-$filename = p\input_of_filename_via_interactive_shell();
+$filename = p\input_of_filename_via_interactive_shell($old_filedirectory);
 if($filename !== false){
     $fileextension = p\extension_query();
     if($fileextension !== false){
