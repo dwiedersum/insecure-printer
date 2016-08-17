@@ -21,37 +21,67 @@ function file_extension($filedirectory){
 }
 
 function input_of_filename_via_interactive_shell($filedirectory){
-    $full_filename = getopt("i:");
-    if(strpos($full_filename[i], ".") == false){
-        echo "Bitte geben Sie den vollständigen Namen der Datei an.\n";
+    $option = getopt("i:h");
+    if(isset($option[h])){
+        echo "\n";
+        echo "-i 'filename'     activate interactive shell to create file with new extension and insecure printed content\n";
+        echo "\n";
         return false;
 
-    }elseif(file_exists($filedirectory . $full_filename[i]) == true && !empty($full_filename[i])){
-        $filename_array = explode(".", $full_filename[i]);
+    }elseif(empty($option[i])){
+        echo "\n";
+        echo "Die Eingabe wurde nicht erkannt.\n";
+        echo "Bitte geben Sie 'php insecure_printer.php -h' ein, um die Hilfe zu öffnen.\n";
+        echo "\n";
+        return false;
+
+    }elseif(strpos($option[i], ".") == false){
+        echo "\n";
+        echo "Bitte geben Sie den vollständigen Namen der Datei an.\n";
+        echo "\n";
+        return false;
+
+    }elseif(file_exists($filedirectory . $option[i]) == true && !empty($option[i])){
+        $filename_array = explode(".", $option[i]);
         return $filename_array;
 
     }else{
+        echo "\n";
         echo "Datei konnte nicht gefunden werden.\n";
+        echo "\n";
         return false;
 
     }
 }
 
+function extension_length($extension){
+    return strlen($extension);
+}
+
 function extension_query(){
+    echo "\n";
     $extension = readline("Unter welcher Extension soll die Datei gespeichert werden?\n");
     readline_add_history($extension);
-    if (strlen($extension) == 0){
+    if (extension_length($extension) == 0){
+        echo "\n";
         echo "Es wurde keine Eingabe erkannt.\n";
+        echo "\n";
         return false;
-    }elseif (strlen($extension) >= 5){
-        echo "Die Eingabe ist ungültig.\n";
+    }elseif (extension_length($extension) >= 5){
+        echo "\n";
+        echo "Die Eingabe ist ungültig. Bitte geben Sie eine Extension ein, die nicht mehr als 5 Zeichen besitzt.\n";
+        echo "\n";
         return false;
     }elseif ($extension[0] == "."){
+        echo "\n";
         echo "Die Datei wurde erstellt.\n";
+        echo "\n";
         return $extension;
     }else{
         $extension = "." . $extension;
+        echo "\n";
         echo "Die Datei wurde erstellt.\n";
+        echo "\n";
         return $extension;
     }
 }
