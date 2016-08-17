@@ -15,7 +15,7 @@ class printer_testcase extends TestCase {
     }
 
 
-    /**public function test_insecure_text(){
+    public function test_insecure_text(){
         $this->assertEquals("Ich wollte sagen:     Hallo     wenn es dir recht ist.\n",
                             printer\insecure_text("Hallo", 5));
         $this->assertEquals("Ich wollte sagen:     Hallo     wenn es dir recht ist.\n",
@@ -23,16 +23,21 @@ class printer_testcase extends TestCase {
     }
 
     public function test_extension_query(){
-        $this->assertEquals("Die Eingabe ist ungültig.\n",
+        $this->assertEquals(false,
                             printer\extension_query());
-    }*/
-
-    public function test_activate_interactive_mode(){
-        $this->assertEquals(true,
-                            printer\activate_interactive_mode());
     }
 
-    /**public function test_array_of_lines_from_text_file(){
+    public function test_input_of_filename_via_interactive_shell(){
+        $this->assertEquals(false,
+                            printer\input_of_filename_via_interactive_shell());
+    }
+
+    public function test_file_extension(){
+        $this->assertEquals(".txt",
+                            printer\file_extension("/source/insecure_printer/bin/print.txt"));
+    }
+
+    public function test_array_of_lines_from_text_file(){
         $this->assertEquals("was ich",
                             printer\array_of_lines_from_file("/source/insecure_printer/bin/print.txt",
                             ".txt", 0)[2]);
@@ -40,6 +45,7 @@ class printer_testcase extends TestCase {
 
     public function test_overwrite_file_content(){
         $this->assertEquals("Ich wollte sagen:     Hallo     wenn es dir recht ist.\n",
-                            printer\overwrite_file_content("/source/insecure_printer/bin/print", ".txt", "Hallo", 5, 4));
-    }*/
+                            printer\overwrite_file_content("/source/insecure_printer/bin/print",
+                            ".txt", "Hallo"));
+    }
 }

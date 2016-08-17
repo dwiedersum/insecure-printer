@@ -8,7 +8,8 @@ function pad_left_and_right($word, $number_of_whitespaces){
 }
 
 function insecure_text($word, $number_of_whitespaces = 5){
-    $insecure_string = "Ich wollte sagen:" . pad_left_and_right($word, $number_of_whitespaces) . "wenn es dir recht ist.\n";
+    $insecure_string = "Ich wollte sagen:" . pad_left_and_right($word, $number_of_whitespaces) .
+                       "wenn es dir recht ist.\n";
 
     return $insecure_string;
 }
@@ -19,34 +20,36 @@ function file_extension($filedirectory){
     return $fileextension;
 }
 
-function activate_interactive_mode(){
-    $options = getopt("text.txt");
-    if ($options == true){
-        passthru("php -a");
-        var_dump($argv);
-        return true;
-    }else{
-        echo "nein\n";
+function input_of_filename_via_interactive_shell(){
+    $full_filename = getopt("i:");
+    if (strlen($full_filename[i]) == 0){
+        $error = "Es wurde keine Eingabe erkannt.\n";
+        echo $error;
         return false;
+    }elseif(strpos($full_filename[i], ".") == false){
+        $error = "Die Eingabe ist ungültig.\n";
+        echo $error;
+        return false;
+    }elseif(strpos($full_filename[i], ".") !== false){
+        $filename_array = explode(".", $full_filename[i]);
+        $filename = $filename_array[0];
+        return $filename;
     }
-}
-
-function input_of_fileextension_via_interactive_shell(){
-    $input = activate_interactive_mode();
-
 }
 
 function extension_query(){
     $extension = readline("Unter welcher Extension soll die Datei gespeichert werden?\n");
     readline_add_history($extension);
-    if ($extension[0] == "."){
-        return $extension;
-    }elseif (strlen($extension) == 0){
+    if (strlen($extension) == 0){
         $error = "Es wurde keine Eingabe erkannt.\n";
-        return $error;
+        echo $error;
+        return false;
     }elseif (strlen($extension) >= 5){
         $error = "Die Eingabe ist ungültig.\n";
-        return $error;
+        echo $error;
+        return false;
+    }elseif ($extension[0] == "."){
+        return $extension;
     }else{
         $extension = "." . $extension;
         return $extension;

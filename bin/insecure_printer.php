@@ -8,23 +8,19 @@ use printer as p;
 $old_filedirectory = "/source/insecure_printer/bin/print.txt";
 
 //Define the new filename and directory w/o extension needed
-$new_filedirectory = "/source/insecure_printer/bin/print_insecure";
+$new_filedirectory = "/source/insecure_printer/bin/";
 
 /**Create a new file and write the desired text in it:
 * "Ich wollte sagen:     line_of_the_old_textfile     wenn es dir recht ist."
 * also displaying the text on the command line.*/
-$input = p\activate_interactive_mode();
-/**if ($activation == true){
-    $extension = p\extension_query();
-    if (strlen($extension) <=5){
+$filename = p\input_of_filename_via_interactive_shell();
+if($filename !== false){
+    $fileextension = p\extension_query();
+    if($fileextension !== false){
         $line_array = p\array_of_lines_from_file($old_filedirectory);
         foreach ($line_array as $linetext){
-            $text .= p\overwrite_file_content($new_filedirectory, $extension, $linetext);
+            $text .= p\overwrite_file_content($new_filedirectory . $filename, $fileextension, $linetext);
         }
         echo $text;
-    }else{
-        echo $extension;
     }
-}else{
-    echo "Failure in activating interactive mode.\n";
-}*/
+}
