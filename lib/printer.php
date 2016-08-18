@@ -57,45 +57,45 @@ function extension_length($extension){
     return strlen($extension);
 }
 
-function extension_query_input(){
+function read_extension_from_commandline(){
     echo "\n";
     $query_input = readline("Unter welcher Extension soll die Datei gespeichert werden?\n");
     readline_add_history($query_input);
     return $query_input;
 }
 
-function extension_query_output($output){
+function print_response($output){
     echo "\n";
     echo $output . "\n";
     echo "\n";
 }
 
-function extension_query_operation($input){
+function response_to_extension($input){
     if (extension_length($input) == 0){
-        return "Es wurde keine Eingabe erkannt.";
+        $response = array("messages" => "Es wurde keine Eingabe erkannt.", "right_fileextension" => false);
+        return $response;
     }elseif (extension_length($input) >= 5){
-        return "Die Eingabe ist ungültig. Bitte geben Sie eine Extension ein, die nicht mehr als 5 Zeichen besitzt.";
+        $response = array("messages" => "Die Eingabe ist ungültig. Bitte geben Sie eine Extension ein, die nicht mehr als 5 Zeichen besitzt.", "right_fileextension" => false);
+        return $response;
     }else{
-        return "Die Datei wurde erstellt.";
+        $response = array("messages" => "Die Datei wurde erstellt.", "right_fileextension" => add_dot_extension($input));
+        return $response;
+    }
 }
+
+function add_dot_extension($extension){
+    if ($extension[0] == "."){
+        return $extension;
+    }else{
+        return "." . $extension;
+    }
 }
 
 function extension_query(){
     $extension = extension_query_input();
-    if (extension_length($extension) == 0){
-        extension_query_output(extension_query_operation($extension));
-        return false;
-    }elseif (extension_length($extension) >= 6){
-        extension_query_output(extension_query_operation($extension));
-        return false;
-    }elseif ($extension[0] == "."){
-        extension_query_output(extension_query_operation($extension));
-        return $extension;
-    }else{
-        $extension = "." . $extension;
-        extension_query_output(extension_query_operation($extension));
-        return $extension;
-    }
+    $response = response_to_extension($extension);
+    print_response($response["messages"]);
+    return $response["right_fileextension"];
 }
 
 function array_of_lines_from_file($filedirectory){

@@ -34,12 +34,18 @@ class printer_testcase extends TestCase {
 
     public function test_extension_query_operation(){
         $this->assertEquals("Die Datei wurde erstellt.",
-                            printer\extension_query_operation("php"));
+                            printer\response_to_extension("php")["messages"]);
         $this->assertEquals("Die Eingabe ist ungültig." .
                             " Bitte geben Sie eine Extension ein, die nicht mehr als 5 Zeichen besitzt.",
-                            printer\extension_query_operation("phptxt"));
+                            printer\response_to_extension("phptxt")["messages"]);
         $this->assertEquals("Es wurde keine Eingabe erkannt.",
-                            printer\extension_query_operation(""));
+                            printer\response_to_extension("")["messages"]);
+        $this->assertEquals(".php",
+                            printer\response_to_extension("php")["right_fileextension"]);
+        $this->assertEquals(false,
+                            printer\response_to_extension("phptxt")["right_fileextension"]);
+        $this->assertEquals(false,
+                            printer\response_to_extension("")["right_fileextension"]);
     }
 
     public function test_string_length(){
@@ -56,8 +62,8 @@ class printer_testcase extends TestCase {
     public function test_array_of_lines_from_text_file(){
         $this->assertEquals("was ich",
                             printer\array_of_lines_from_file("/source/insecure_printer/bin/print.txt")[2]);
-        $this->assertEquals("ich wollte",
-                            printer\array_of_lines_from_file("/source/insecure_printer/bin/print_insecure.txt")[1]);
+        $this->assertEquals("Es tut mir leid.",
+                            printer\array_of_lines_from_file("/source/insecure_printer/bin/write.txt")[0]);
     }
 
     public function test_overwrite_file_content(){
