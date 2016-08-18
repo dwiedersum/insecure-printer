@@ -32,4 +32,21 @@ class shapes_testcase extends TestCase {
         $this->assertEquals("", shapes\build_rotated_square(-1));
     }
 
+    public function test_draw_shape(){
+        $this->assertEquals("###\n###\n###\n",
+                            shapes\draw_shape_with_input_from_commandline("square", 3));
+        $this->assertEquals("#\n##\n###\n##\n#\n",
+                            shapes\draw_shape_with_input_from_commandline("arrow", 3));
+        $this->assertEquals("  #\n ###\n#####\n ###\n  #\n",
+                            shapes\draw_shape_with_input_from_commandline("rotated square", 3));
+        $this->assertEquals("\nDie gewünsche geometrische Form kann nicht gebaut werden.\n" .
+               "Für weitere Informationen geben Sie 'php print_shape.php -h' ein.\n\n",
+                            shapes\draw_shape_with_input_from_commandline("triangle", 3));
+    }
+
+    public function test_open_help(){
+        $this->assertEquals("", shapes\open_help());
+        $this->assertEquals(true, shapes\open_help(h));
+    }
+
 }
