@@ -15,4 +15,10 @@ class shapes_testcase extends TestCase {
         $this->assertEquals("##\n##\n", shapes\build_square(2));
     }
 
+    public function test_arrow_build(){
+        $this->assertEquals("#\n##\n###\n####\n###\n##\n#\n", shapes\build_arrow(4));
+        $this->assertEquals("#\n##\n#\n", shapes\build_arrow(2));
+        $this->assertEquals("", shapes\build_arrow(0));
+    }
+
 }
