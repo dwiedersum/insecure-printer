@@ -5,7 +5,6 @@ require("../lib/printer.php");
 use printer as p;
 
 //Define the directory of the textfile
-$file_location = "/source/insecure_printer/bin/";
 
 /**
  * To start the creation of the new file write:
@@ -14,7 +13,7 @@ $file_location = "/source/insecure_printer/bin/";
  * "Ich wollte sagen:     line_of_the_old_textfile     wenn es dir recht ist."
  * also displaying the text on the command line.
  */
-$full_filename = p\input_of_filename_via_interactive_shell($filedirectory);
+$full_filename = p\input_of_filename_via_interactive_shell();
 $filename = $full_filename[0];
 $old_fileextension = $full_filename[1];
 if($full_filename !== false){

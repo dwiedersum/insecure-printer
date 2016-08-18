@@ -20,37 +20,36 @@ function file_extension($filedirectory){
     return $fileextension;
 }
 
-function input_of_filename_via_interactive_shell($filedirectory){
+function input_of_filename_output($output){
+    echo "\n";
+    echo $output . "\n";
+    echo "\n";
+}
+
+function input_of_filename_operation($filename){
+    if(empty($filename)){
+        return "Die Eingabe wurde nicht erkannt.\n" .
+               "Bitte geben Sie 'php insecure_printer.php -h' ein, um die Hilfe zu öffnen.";
+    }elseif(strpos($filename, ".") == false){
+        return "Bitte geben Sie den vollständigen Namen der Datei an.";
+    }else{
+        return "Datei konnte nicht gefunden werden.";
+    }
+}
+
+function input_of_filename_via_interactive_shell(){
     $option = getopt("i:h");
     if(isset($option[h])){
         echo "\n";
-        echo "-i 'filename'     activate interactive shell to create file with new extension and insecure printed content\n";
-        echo "\n";
+        echo "-i 'filename'" . pad_left_and_right(" ", 2) .
+             "activate interactive shell to create file with new extension and insecure printed content\n\n";
         return false;
-
-    }elseif(empty($option[i])){
-        echo "\n";
-        echo "Die Eingabe wurde nicht erkannt.\n";
-        echo "Bitte geben Sie 'php insecure_printer.php -h' ein, um die Hilfe zu öffnen.\n";
-        echo "\n";
-        return false;
-
-    }elseif(strpos($option[i], ".") == false){
-        echo "\n";
-        echo "Bitte geben Sie den vollständigen Namen der Datei an.\n";
-        echo "\n";
-        return false;
-
-    }elseif(file_exists($filedirectory . $option[i]) == true && !empty($option[i])){
+    }elseif(file_exists($option[i]) == true && !empty($option[i]) && strpos($option[i], ".") !== false){
         $filename_array = explode(".", $option[i]);
         return $filename_array;
-
     }else{
-        echo "\n";
-        echo "Datei konnte nicht gefunden werden.\n";
-        echo "\n";
+        input_of_filename_output(input_of_filename_operation($option[i]));
         return false;
-
     }
 }
 
@@ -58,35 +57,48 @@ function extension_length($extension){
     return strlen($extension);
 }
 
-function extension_query(){
+function extension_query_input(){
     echo "\n";
-    $extension = readline("Unter welcher Extension soll die Datei gespeichert werden?\n");
-    readline_add_history($extension);
+    $query_input = readline("Unter welcher Extension soll die Datei gespeichert werden?\n");
+    readline_add_history($query_input);
+    return $query_input;
+}
+
+function extension_query_output($output){
+    echo "\n";
+    echo $output . "\n";
+    echo "\n";
+}
+
+function extension_query_operation($input){
+    if (extension_length($input) == 0){
+        return "Es wurde keine Eingabe erkannt.";
+    }elseif (extension_length($input) >= 5){
+        return "Die Eingabe ist ungültig. Bitte geben Sie eine Extension ein, die nicht mehr als 5 Zeichen besitzt.";
+    }else{
+        return "Die Datei wurde erstellt.";
+}
+}
+
+function extension_query(){
+    $extension = extension_query_input();
     if (extension_length($extension) == 0){
-        echo "\n";
-        echo "Es wurde keine Eingabe erkannt.\n";
-        echo "\n";
+        extension_query_output(extension_query_operation($extension));
         return false;
-    }elseif (extension_length($extension) >= 5){
-        echo "\n";
-        echo "Die Eingabe ist ungültig. Bitte geben Sie eine Extension ein, die nicht mehr als 5 Zeichen besitzt.\n";
-        echo "\n";
+    }elseif (extension_length($extension) >= 6){
+        extension_query_output(extension_query_operation($extension));
         return false;
     }elseif ($extension[0] == "."){
-        echo "\n";
-        echo "Die Datei wurde erstellt.\n";
-        echo "\n";
+        extension_query_output(extension_query_operation($extension));
         return $extension;
     }else{
         $extension = "." . $extension;
-        echo "\n";
-        echo "Die Datei wurde erstellt.\n";
-        echo "\n";
+        extension_query_output(extension_query_operation($extension));
         return $extension;
     }
 }
 
-function array_of_lines_from_file($filedirectory, $key = ''){
+function array_of_lines_from_file($filedirectory){
     $line_array = file($filedirectory, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
         return $line_array;
 }
