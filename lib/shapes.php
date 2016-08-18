@@ -55,21 +55,89 @@ function build_rotated_square($value, $i = 0){
     return $rotated_square_text;
 }
 
-function read_shape_and_size(){
+function read_options(){
     $options = array("shape:", "size:");
-    $shape_and_size = getopt("h", $options);
+    $shape_and_size = getopt("ih", $options);
     return $shape_and_size;
 }
 
+function activate_interactive_mode($options){
+    if (isset($options)){
+        echo "Interactive Mode: Activated\n";
+        return true;
+    }else{
+        return false;
+    }
+}
+
+function read_shape_with_interactive_mode(){
+        $query_shape = readline("Bitte geben Sie eine Form ein.\n");
+        readline_add_history($query_shape);
+    switch($query_shape){
+
+        case 'square':
+            echo "Sie haben 'square' gewählt.\n";
+            return $query_shape;
+            break;
+
+            case 'arrow':
+            echo "Sie haben 'arrow' gewählt.\n";
+            return $query_shape;
+            break;
+
+            case 'rotated square':
+            echo "Sie haben 'rotated square' gewählt.\n";
+            return $query_shape;
+            break;
+
+            default:
+            echo "Die gewünsche geometrische Form kann nicht gebaut werden.\n" .
+                   "Für weitere Informationen geben Sie 'php print_shape.php -h' ein.\n\n";
+            return false;
+            break;
+    }
+}
+
+function set_size_with_interactive_mode(){
+        $query_size = readline("Bitte geben Sie eine Größe ein.\n");
+        readline_add_history($query_size);
+        if (is_numeric($query_size) == true){
+            echo "Die gewählte Größe lautet: " . $query_size . "\n";
+            return $query_size;
+        }else{
+            return false;
+        }
+}
+
 function open_help($options = ""){
-    if (!empty($options)){
+    if (isset($options)){
         echo "\n";
         echo "--shape" . pad_left_and_right(" ", 2) .
              "draw shape with hashes if it is available\n" . pad_left_and_right("", 6) .
              "available shapes are: square, arrow, rotated square\n\n" .
              "--size" . pad_left_and_right("", 3) .
-             "change the size of the build shape\n\n";
+             "change the size of the build shape\n";
         return true;
+    }else{
+        return false;
+    }
+}
+
+function response_to_shape_and_size($shape, $size){
+    if(!is_numeric($size) == true && isset($size)){
+        echo "\n";
+        echo "Die eingegebene Größe konnte nicht erkannt werden.\n";
+    }elseif (isset($shape) && isset($size)){
+        echo draw_shape_with_input_from_commandline($shape, $size);
+    }elseif (!isset($shape) && !isset($size)){
+        echo "\n";
+        echo "Bitte geben Sie eine Form und eine Größe ein.\n";
+        echo "Für weitere Informationen geben Sie 'php print_shape.php -h' ein.\n\n";
+    }else{
+        echo "\n";
+        echo "Die eingegebenen Werte wurden nicht erkannt.\n";
+        echo "Bitte vergewissern Sie sich, dass Sie alle Werte eingegeben haben.\n";
+        echo "Für weitere Informationen geben Sie 'php print_shape.php -h' ein.\n\n";
     }
 }
 

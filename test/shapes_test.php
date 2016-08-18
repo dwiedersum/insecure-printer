@@ -45,7 +45,6 @@ class shapes_testcase extends TestCase {
     }
 
     public function test_open_help(){
-        $this->assertEquals("", shapes\open_help());
         $this->assertEquals(true, shapes\open_help(h));
     }
 
