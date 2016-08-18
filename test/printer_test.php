@@ -22,19 +22,47 @@ class printer_testcase extends TestCase {
                                                 printer\insecure_text("Hallo"));
     }
 
-    public function test_extension_query(){
-        $this->assertEquals("Die Eingabe ist ungültig.",
-                            printer\extension_query());
+    public function test_input_of_filename_operation(){
+        $this->assertEquals("Die Eingabe wurde nicht erkannt.\n" .
+                            "Bitte geben Sie 'php insecure_printer.php -h' ein, um die Hilfe zu öffnen.",
+                            printer\input_of_filename_operation(""));
+        $this->assertEquals("Bitte geben Sie den vollständigen Namen der Datei an.",
+                            printer\input_of_filename_operation("asdf"));
+        $this->assertEquals("Datei konnte nicht gefunden werden.",
+                            printer\input_of_filename_operation("text.txt"));
+    }
+
+    public function test_extension_query_operation(){
+        $this->assertEquals("Die Datei wurde erstellt.",
+                            printer\extension_query_operation("php"));
+        $this->assertEquals("Die Eingabe ist ungültig." .
+                            " Bitte geben Sie eine Extension ein, die nicht mehr als 5 Zeichen besitzt.",
+                            printer\extension_query_operation("phptxt"));
+        $this->assertEquals("Es wurde keine Eingabe erkannt.",
+                            printer\extension_query_operation(""));
+    }
+
+    public function test_string_length(){
+        $this->assertEquals(5, printer\extension_length("asdfg"));
+        $this->assertEquals(0, printer\extension_length(""));
+    }
+
+
+    public function test_file_extension(){
+        $this->assertEquals(".txt",
+                            printer\file_extension("/source/insecure_printer/bin/print.txt"));
     }
 
     public function test_array_of_lines_from_text_file(){
         $this->assertEquals("was ich",
-                            printer\array_of_lines_from_file("/source/insecure_printer/bin/print.txt",
-                            ".txt", 0)[2]);
+                            printer\array_of_lines_from_file("/source/insecure_printer/bin/print.txt")[2]);
+        $this->assertEquals("ich wollte",
+                            printer\array_of_lines_from_file("/source/insecure_printer/bin/print_insecure.txt")[1]);
     }
 
     public function test_overwrite_file_content(){
         $this->assertEquals("Ich wollte sagen:     Hallo     wenn es dir recht ist.\n",
-                            printer\overwrite_file_content("/source/insecure_printer/bin/print", ".txt", "Hallo", 5, 4));
+                            printer\overwrite_file_content("/source/insecure_printer/bin/print_insecure",
+                            ".txt", "Hallo"));
     }
 }
