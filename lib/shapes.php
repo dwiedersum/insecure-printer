@@ -61,9 +61,25 @@ function read_options(){
     return $shape_and_size;
 }
 
-function activate_interactive_mode($options){
-    if (isset($options)){
+function activate_interactive_mode($options = null){
+    if (isset($options) == true){
         echo "Interactive Mode: Activated\n";
+        return true;
+    }else{
+        return false;
+    }
+}
+
+function open_help($options = null){
+    if (isset($options) == true){
+        echo "\n";
+        echo "--shape" . pad_left_and_right(" ", 2) .
+             "draw shape with hashes if it is available\n" . pad_left_and_right("", 6) .
+             "available shapes are: square, arrow, rotated square\n\n";
+        echo "--size" . pad_left_and_right("", 3) .
+             "change the size of the build shape\n\n";
+        echo "-i" . pad_left_and_right("", 5) .
+             "activate interactive mode to insert the values for the shape\n";
         return true;
     }else{
         return false;
@@ -73,29 +89,16 @@ function activate_interactive_mode($options){
 function read_shape_with_interactive_mode(){
         $query_shape = readline("Bitte geben Sie eine Form ein.\n");
         readline_add_history($query_shape);
-    switch($query_shape){
-
-        case 'square':
-            echo "Sie haben 'square' gewählt.\n";
-            return $query_shape;
-            break;
-
+        switch ($query_shape){
+            case 'square':
             case 'arrow':
-            echo "Sie haben 'arrow' gewählt.\n";
-            return $query_shape;
-            break;
-
             case 'rotated square':
-            echo "Sie haben 'rotated square' gewählt.\n";
-            return $query_shape;
+            return message_to_shape_choice($query_shape);
             break;
 
             default:
-            echo "Die gewünsche geometrische Form kann nicht gebaut werden.\n" .
-                   "Für weitere Informationen geben Sie 'php print_shape.php -h' ein.\n\n";
             return false;
-            break;
-    }
+        }
 }
 
 function set_size_with_interactive_mode(){
@@ -109,59 +112,41 @@ function set_size_with_interactive_mode(){
         }
 }
 
-function open_help($options = ""){
-    if (isset($options)){
-        echo "\n";
-        echo "--shape" . pad_left_and_right(" ", 2) .
-             "draw shape with hashes if it is available\n" . pad_left_and_right("", 6) .
-             "available shapes are: square, arrow, rotated square\n\n" .
-             "--size" . pad_left_and_right("", 3) .
-             "change the size of the build shape\n";
-        return true;
-    }else{
-        return false;
-    }
-}
-
-function response_to_shape_and_size($shape, $size){
-    if(!is_numeric($size) == true && isset($size)){
-        echo "\n";
-        echo "Die eingegebene Größe konnte nicht erkannt werden.\n";
-    }elseif (isset($shape) && isset($size)){
-        echo draw_shape_with_input_from_commandline($shape, $size);
-    }elseif (!isset($shape) && !isset($size)){
-        echo "\n";
-        echo "Bitte geben Sie eine Form und eine Größe ein.\n";
-        echo "Für weitere Informationen geben Sie 'php print_shape.php -h' ein.\n\n";
-    }else{
-        echo "\n";
-        echo "Die eingegebenen Werte wurden nicht erkannt.\n";
-        echo "Bitte vergewissern Sie sich, dass Sie alle Werte eingegeben haben.\n";
-        echo "Für weitere Informationen geben Sie 'php print_shape.php -h' ein.\n\n";
-    }
-}
-
-
 function draw_shape_with_input_from_commandline($shape, $size){
     switch ($shape) {
         case 'square':
             $square = build_square($size);
+            echo $square;
             return $square;
             break;
 
         case 'arrow':
             $arrow = build_arrow($size);
+            echo $arrow;
             return $arrow;
             break;
 
         case 'rotated square':
             $rotated_square = build_rotated_square($size);
+            echo $rotated_square;
             return $rotated_square;
             break;
 
         default:
-            return "\nDie gewünsche geometrische Form kann nicht gebaut werden.\n" .
-                   "Für weitere Informationen geben Sie 'php print_shape.php -h' ein.\n\n";
+            $shape = false;
+            message_to_shape_choice($shape);
+            return false;
             break;
+    }
+}
+
+function message_to_shape_choice($shape){
+    if ($shape !== false){
+        echo "Sie haben '$shape' gewählt.\n";
+        return $shape;
+    }else{
+        echo "Die gewünschte geometrische Form kann nicht gebaut werden.\n" .
+             "Für weitere Informationen geben Sie 'php print_shape.php -h' ein.\n\n";
+        return false;
     }
 }
