@@ -1,6 +1,8 @@
 <?php
 namespace printer;
 
+require("../lib/CLI.php");
+
 function pad_left_and_right($word, $number_of_whitespaces){
     $whitespace_string = str_repeat(" ", $number_of_whitespaces);
 
@@ -20,36 +22,53 @@ function file_extension($filedirectory){
     return $fileextension;
 }
 
-function input_of_filename_output($output){
-    echo "\n";
-    echo $output . "\n";
-    echo "\n";
-}
-
-function input_of_filename_operation($filename){
-    if(empty($filename)){
-        return "Die Eingabe wurde nicht erkannt.\n" .
-               "Bitte geben Sie 'php insecure_printer.php -h' ein, um die Hilfe zu öffnen.";
+function check_filename($filename){
+    if (file_exists($filename) == true && isset($filename) == true && strpos($filename, ".") !== false){
+        $filename_array = explode(".", $filename);
+        $file_array = array("message" => "Interactive Mode:Activated", "filename" => $filename_array[0], "fileextension" => "." . $filename_array[1]);
+        return $file_array;
+    }elseif(empty($filename)){
+        return "\n" .
+               "Die Eingabe wurde nicht erkannt.\n" .
+               "Bitte geben Sie 'php insecure_printer.php -h' ein, um die Hilfe zu öffnen.\n" .
+               "\n";
     }elseif(strpos($filename, ".") == false){
-        return "Bitte geben Sie den vollständigen Namen der Datei an.";
+        return "\n" .
+               "Bitte geben Sie den vollständigen Namen der Datei an.\n" .
+               "\n";
     }else{
-        return "Datei konnte nicht gefunden werden.";
+        return "\n" .
+               "Datei konnte nicht gefunden werden.\n" .
+               "\n";
     }
 }
 
-function input_of_filename_via_interactive_shell(){
-    $option = getopt("i:h");
-    if(isset($option[h])){
+function read_filename_via_interactive_shell($options){
+    if ($options == false){
+        return false;
+    }
+    if ($options == "help"){
         echo "\n";
         echo "-i 'filename'" . pad_left_and_right(" ", 2) .
-             "activate interactive shell to create file with new extension and insecure printed content\n\n";
-        return false;
-    }elseif(file_exists($option[i]) == true && !empty($option[i]) && strpos($option[i], ".") !== false){
-        $filename_array = explode(".", $option[i]);
-        return $filename_array;
+             "activate interactive shell to create file with new extension and insecure printed content\n";
+        echo "\n";
+        return "help";
     }else{
-        input_of_filename_output(input_of_filename_operation($option[i]));
-        return false;
+        if(is_array($options)){
+            if (array_key_exists("shape", $options)){
+                echo $options["message"];
+                return false;
+            }
+            if (array_key_exists("filename", $options)){
+                $checked_file = check_filename($options["filename"]);
+                if (is_array($checked_file) == true){
+                    echo $options["message"];
+                    return $checked_file;
+                }else{
+                    return $checked_file;
+                }
+            }
+        }
     }
 }
 
@@ -59,7 +78,7 @@ function extension_length($extension){
 
 function read_extension_from_commandline(){
     echo "\n";
-    $query_input = readline("Unter welcher Extension soll die Datei gespeichert werden?\n");
+    $query_input = readline("\nUnter welcher Extension soll die Datei gespeichert werden?\n");
     readline_add_history($query_input);
     return $query_input;
 }
@@ -92,7 +111,7 @@ function add_dot_extension($extension){
 }
 
 function extension_query(){
-    $extension = extension_query_input();
+    $extension = read_extension_from_commandline();
     $response = response_to_extension($extension);
     print_response($response["messages"]);
     return $response["right_fileextension"];

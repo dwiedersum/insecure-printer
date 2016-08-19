@@ -22,17 +22,25 @@ class printer_testcase extends TestCase {
                                                 printer\insecure_text("Hallo"));
     }
 
-    public function test_input_of_filename_operation(){
-        $this->assertEquals("Die Eingabe wurde nicht erkannt.\n" .
-                            "Bitte geben Sie 'php insecure_printer.php -h' ein, um die Hilfe zu öffnen.",
-                            printer\input_of_filename_operation(""));
-        $this->assertEquals("Bitte geben Sie den vollständigen Namen der Datei an.",
-                            printer\input_of_filename_operation("asdf"));
-        $this->assertEquals("Datei konnte nicht gefunden werden.",
-                            printer\input_of_filename_operation("text.txt"));
+    public function test_check_filename(){
+        $this->assertEquals("\nDie Eingabe wurde nicht erkannt.\n" .
+                            "Bitte geben Sie 'php insecure_printer.php -h' ein, um die Hilfe zu öffnen.\n\n",
+                            printer\check_filename(""));
+        $this->assertEquals("\nBitte geben Sie den vollständigen Namen der Datei an.\n\n",
+                            printer\check_filename("asdf"));
+        $this->assertEquals("\nDatei konnte nicht gefunden werden.\n\n",
+                            printer\check_filename("text.txt"));
     }
 
-    public function test_extension_query_operation(){
+    public function test_read_filename_via_interactive_shell(){
+        $this->assertEquals(false, printer\read_filename_via_interactive_shell(false));
+        $this->assertEquals("help", printer\read_filename_via_interactive_shell("help"));
+        $this->assertEquals(false, printer\read_filename_via_interactive_shell(array("shape" => "square")));
+        $this->assertEquals("\nDatei konnte nicht gefunden werden.\n\n", printer\read_filename_via_interactive_shell(array("filename" => "print.txt")));
+        $this->assertEquals(null, printer\read_filename_via_interactive_shell("asdf"));
+    }
+
+    public function test_response_to_extension(){
         $this->assertEquals("Die Datei wurde erstellt.",
                             printer\response_to_extension("php")["messages"]);
         $this->assertEquals("Die Eingabe ist ungültig." .
