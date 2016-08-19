@@ -22,35 +22,37 @@ function file_extension($filedirectory){
     return $fileextension;
 }
 
-function input_of_filename_output($output){
-    echo "\n";
-    echo $output . "\n";
-    echo "\n";
-}
-
-function input_of_filename_operation($filename){
+function check_filename($filename){
     if (file_exists($filename) == true && isset($filename) == true && strpos($filename, ".") !== false){
         $filename_array = explode(".", $filename);
         $file_array = array("message" => "Interactive Mode:Activated", "filename" => $filename_array[0], "fileextension" => "." . $filename_array[1]);
         return $file_array;
+    }elseif(empty($filename)){
+        return "\n" .
+               "Die Eingabe wurde nicht erkannt.\n" .
+               "Bitte geben Sie 'php insecure_printer.php -h' ein, um die Hilfe zu öffnen.\n" .
+               "\n";
     }elseif(strpos($filename, ".") == false){
-        return "Bitte geben Sie den vollständigen Namen der Datei an.\n";
+        return "\n" .
+               "Bitte geben Sie den vollständigen Namen der Datei an.\n" .
+               "\n";
     }else{
-        return "Datei konnte nicht gefunden werden.\n";
+        return "\n" .
+               "Datei konnte nicht gefunden werden.\n" .
+               "\n";
     }
 }
 
-function input_of_filename_via_interactive_shell($options){
+function read_filename_via_interactive_shell($options){
     if ($options == false){
-        echo "Die Eingabe wurde nicht erkannt.\n" .
-             "Bitte geben Sie 'php insecure_printer.php -h' ein, um die Hilfe zu öffnen.\n";
         return false;
     }
     if ($options == "help"){
         echo "\n";
         echo "-i 'filename'" . pad_left_and_right(" ", 2) .
-             "activate interactive shell to create file with new extension and insecure printed content\n\n";
-        return false;
+             "activate interactive shell to create file with new extension and insecure printed content\n";
+        echo "\n";
+        return "help";
     }else{
         if(is_array($options)){
             if (array_key_exists("shape", $options)){
@@ -58,13 +60,12 @@ function input_of_filename_via_interactive_shell($options){
                 return false;
             }
             if (array_key_exists("filename", $options)){
-                $checked_file = input_of_filename_operation($options["filename"]);
+                $checked_file = check_filename($options["filename"]);
                 if (is_array($checked_file) == true){
                     echo $options["message"];
                     return $checked_file;
                 }else{
-                    echo $checked_file;
-                    return false;
+                    return $checked_file;
                 }
             }
         }
@@ -77,7 +78,7 @@ function extension_length($extension){
 
 function read_extension_from_commandline(){
     echo "\n";
-    $query_input = readline("Unter welcher Extension soll die Datei gespeichert werden?\n");
+    $query_input = readline("\nUnter welcher Extension soll die Datei gespeichert werden?\n");
     readline_add_history($query_input);
     return $query_input;
 }

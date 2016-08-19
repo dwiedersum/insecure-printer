@@ -55,23 +55,24 @@ function build_rotated_square($value, $i = 0){
     return $rotated_square_text;
 }
 
-function read_options(){
-    $options = array("shape:", "size:");
-    $shape_and_size = getopt("ih", $options);
-    return $shape_and_size;
-}
-
-function activate_interactive_mode($options = null){
-    if (isset($options) == true){
-        echo "Interactive Mode: Activated\n";
-        return true;
-    }else{
+function categorize_options_from_cli($options){
+    if ($options == "help"){
+        open_help($options);
+        return "help";
+    }elseif(is_array($options) && count($options) == 3){
+        $array = $options;
+        return $array;
+    }elseif($options == false || count($options) == 2){
         return false;
+    }else{
+        $string = $options;
+        echo $string;
+        return $string;
     }
 }
 
 function open_help($options = null){
-    if (isset($options) == true){
+    if (isset($options) == "help"){
         echo "\n";
         echo "--shape" . pad_left_and_right(" ", 2) .
              "draw shape with hashes if it is available\n" . pad_left_and_right("", 6) .
@@ -79,7 +80,7 @@ function open_help($options = null){
         echo "--size" . pad_left_and_right("", 3) .
              "change the size of the build shape\n\n";
         echo "-i" . pad_left_and_right("", 5) .
-             "activate interactive mode to insert the values for the shape\n";
+             "activate interactive mode to insert the values for the shape\n\n";
         return true;
     }else{
         return false;
@@ -105,7 +106,9 @@ function set_size_with_interactive_mode(){
         $query_size = readline("Bitte geben Sie eine Größe ein.\n");
         readline_add_history($query_size);
         if (is_numeric($query_size) == true){
+            echo "\n";
             echo "Die gewählte Größe lautet: " . $query_size . "\n";
+            echo "\n";
             return $query_size;
         }else{
             return false;
@@ -133,8 +136,7 @@ function draw_shape_with_input_from_commandline($shape, $size){
             break;
 
         default:
-            $shape = false;
-            message_to_shape_choice($shape);
+            message_to_shape_choice(false);
             return false;
             break;
     }
@@ -142,7 +144,9 @@ function draw_shape_with_input_from_commandline($shape, $size){
 
 function message_to_shape_choice($shape){
     if ($shape !== false){
+        echo "\n";
         echo "Sie haben '$shape' gewählt.\n";
+        echo "\n";
         return $shape;
     }else{
         echo "Die gewünschte geometrische Form kann nicht gebaut werden.\n" .

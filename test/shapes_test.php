@@ -61,13 +61,8 @@ class shapes_testcase extends TestCase {
     }
 
     public function test_open_help(){
-        $this->assertEquals(true, shapes\open_help(h));
+        $this->assertEquals(true, shapes\open_help("help"));
         $this->assertEquals(false, shapes\open_help());
-    }
-
-    public function test_interactive_mode_activation(){
-        $this->assertEquals(true, shapes\activate_interactive_mode(h));
-        $this->assertEquals(false, shapes\activate_interactive_mode());
     }
 
     public function test_messages_to_shape_choice(){
@@ -75,6 +70,14 @@ class shapes_testcase extends TestCase {
         $this->assertEquals("arrow", shapes\message_to_shape_choice("arrow"));
         $this->assertEquals("square rotated", shapes\message_to_shape_choice("square rotated"));
         $this->assertEquals(false, shapes\message_to_shape_choice(false));
+    }
+
+    public function test_categorize_options_from_cli(){
+        $this->assertEquals("help", shapes\categorize_options_from_cli("help"));
+        $this->assertEquals("hallo", shapes\categorize_options_from_cli("hallo"));
+        $this->assertEquals(array("hallo", "tschüss", "welt"), shapes\categorize_options_from_cli(array("hallo", "tschüss", "welt")));
+        $this->assertEquals(false, shapes\categorize_options_from_cli(array("hallo", "welt")));
+        $this->assertEquals(false, shapes\categorize_options_from_cli(false));
     }
 
 }
