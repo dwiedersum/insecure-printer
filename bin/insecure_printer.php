@@ -14,8 +14,8 @@ use printer as p;
  * also displaying the text on the command line.
  */
 $full_filename = p\input_of_filename_via_interactive_shell();
-$filename = $full_filename[0];
-$old_fileextension = $full_filename[1];
+$filename = $full_filename["filename"];
+$old_fileextension = $full_filename["fileextension"];
 if($full_filename !== false){
     $new_fileextension = p\extension_query();
     if($new_fileextension !== false){

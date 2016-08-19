@@ -1,6 +1,8 @@
 <?php
 namespace printer;
 
+require("../lib/CLI.php");
+
 function pad_left_and_right($word, $number_of_whitespaces){
     $whitespace_string = str_repeat(" ", $number_of_whitespaces);
 
@@ -27,29 +29,45 @@ function input_of_filename_output($output){
 }
 
 function input_of_filename_operation($filename){
-    if(empty($filename)){
-        return "Die Eingabe wurde nicht erkannt.\n" .
-               "Bitte geben Sie 'php insecure_printer.php -h' ein, um die Hilfe zu öffnen.";
+    if (file_exists($filename) == true && isset($filename) == true && strpos($filename, ".") !== false){
+        $filename_array = explode(".", $filename);
+        $file_array = array("message" => "Interactive Mode:Activated", "filename" => $filename_array[0], "fileextension" => "." . $filename_array[1]);
+        return $file_array;
     }elseif(strpos($filename, ".") == false){
-        return "Bitte geben Sie den vollständigen Namen der Datei an.";
+        return "Bitte geben Sie den vollständigen Namen der Datei an.\n";
     }else{
-        return "Datei konnte nicht gefunden werden.";
+        return "Datei konnte nicht gefunden werden.\n";
     }
 }
 
-function input_of_filename_via_interactive_shell(){
-    $option = getopt("i:h");
-    if(isset($option[h])){
+function input_of_filename_via_interactive_shell($options){
+    if ($options == false){
+        echo "Die Eingabe wurde nicht erkannt.\n" .
+             "Bitte geben Sie 'php insecure_printer.php -h' ein, um die Hilfe zu öffnen.\n";
+        return false;
+    }
+    if ($options == "help"){
         echo "\n";
         echo "-i 'filename'" . pad_left_and_right(" ", 2) .
              "activate interactive shell to create file with new extension and insecure printed content\n\n";
         return false;
-    }elseif(file_exists($option[i]) == true && !empty($option[i]) && strpos($option[i], ".") !== false){
-        $filename_array = explode(".", $option[i]);
-        return $filename_array;
     }else{
-        input_of_filename_output(input_of_filename_operation($option[i]));
-        return false;
+        if(is_array($options)){
+            if (array_key_exists("shape", $options)){
+                echo $options["message"];
+                return false;
+            }
+            if (array_key_exists("filename", $options)){
+                $checked_file = input_of_filename_operation($options["filename"]);
+                if (is_array($checked_file) == true){
+                    echo $options["message"];
+                    return $checked_file;
+                }else{
+                    echo $checked_file;
+                    return false;
+                }
+            }
+        }
     }
 }
 
@@ -92,7 +110,7 @@ function add_dot_extension($extension){
 }
 
 function extension_query(){
-    $extension = extension_query_input();
+    $extension = read_extension_from_commandline();
     $response = response_to_extension($extension);
     print_response($response["messages"]);
     return $response["right_fileextension"];
