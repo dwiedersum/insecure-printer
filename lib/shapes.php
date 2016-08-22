@@ -102,6 +102,19 @@ function read_shape_with_interactive_mode(){
         }
 }
 
+function message_to_shape_choice($shape){
+    if ($shape !== false){
+        echo "\n";
+        echo "Sie haben '$shape' gewählt.\n";
+        echo "\n";
+        return $shape;
+    }else{
+        echo "Die gewünschte geometrische Form kann nicht gebaut werden.\n" .
+             "Für weitere Informationen geben Sie 'php print_shape.php -h' ein.\n\n";
+        return false;
+    }
+}
+
 function set_size_with_interactive_mode(){
         $query_size = readline("Bitte geben Sie eine Größe ein.\n");
         readline_add_history($query_size);
@@ -139,18 +152,5 @@ function draw_shape_with_input_from_commandline($shape, $size){
             message_to_shape_choice(false);
             return false;
             break;
-    }
-}
-
-function message_to_shape_choice($shape){
-    if ($shape !== false){
-        echo "\n";
-        echo "Sie haben '$shape' gewählt.\n";
-        echo "\n";
-        return $shape;
-    }else{
-        echo "Die gewünschte geometrische Form kann nicht gebaut werden.\n" .
-             "Für weitere Informationen geben Sie 'php print_shape.php -h' ein.\n\n";
-        return false;
     }
 }

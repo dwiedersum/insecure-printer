@@ -25,7 +25,8 @@ function file_extension($filedirectory){
 function check_filename($filename){
     if (file_exists($filename) == true && isset($filename) == true && strpos($filename, ".") !== false){
         $filename_array = explode(".", $filename);
-        $file_array = array("message" => "Interactive Mode:Activated", "filename" => $filename_array[0], "fileextension" => "." . $filename_array[1]);
+        $file_array = array("message" => "Interactive Mode:Activated", "filename" => $filename_array[0],
+                            "fileextension" => "." . $filename_array[1]);
         return $file_array;
     }elseif(empty($filename)){
         return "\n" .
@@ -83,23 +84,29 @@ function read_extension_from_commandline(){
     return $query_input;
 }
 
-function print_response($output){
-    echo "\n";
-    echo $output . "\n";
-    echo "\n";
-}
-
-function response_to_extension($input){
+function response_to_extension($input, $file){
     if (extension_length($input) == 0){
         $response = array("messages" => "Es wurde keine Eingabe erkannt.", "right_fileextension" => false);
         return $response;
     }elseif (extension_length($input) >= 5){
-        $response = array("messages" => "Die Eingabe ist ungültig. Bitte geben Sie eine Extension ein, die nicht mehr als 5 Zeichen besitzt.", "right_fileextension" => false);
+        $response = array("messages" => "Die Eingabe ist ungültig. Bitte geben Sie eine Extension ein," .
+                          " die nicht mehr als 5 Zeichen besitzt.", "right_fileextension" => false);
+        return $response;
+    }elseif(file_exists($file) == false){
+        $response = array("messages" => "Die Datei wurde erstellt.",
+                          "right_fileextension" => add_dot_extension($input));
         return $response;
     }else{
-        $response = array("messages" => "Die Datei wurde erstellt.", "right_fileextension" => add_dot_extension($input));
+        $response = array("messages" => "Die Datei existiert bereits.\nInhalt wird überschrieben.",
+                          "right_fileextension" => add_dot_extension($input));
         return $response;
     }
+}
+
+function print_response($output){
+    echo "\n";
+    echo $output . "\n";
+    echo "\n";
 }
 
 function add_dot_extension($extension){
@@ -110,9 +117,9 @@ function add_dot_extension($extension){
     }
 }
 
-function extension_query(){
+function extension_query($file){
     $extension = read_extension_from_commandline();
-    $response = response_to_extension($extension);
+    $response = response_to_extension($extension, $file . "." . $extension);
     print_response($response["messages"]);
     return $response["right_fileextension"];
 }
