@@ -17,20 +17,21 @@ if (is_array($options)){
     }
 }elseif(is_string($options) == true && $options !== "help"){
     $shape = sh\read_shape_with_interactive_mode();
-    if ($shape !== false){
-        $size = sh\set_size_with_interactive_mode();
-        if($size !== false){
-            sh\draw_shape_with_input_from_commandline($shape, $size);
-        }else{
-            echo "\n";
-            echo "Die gewählte Größe wurde nicht erkannt.\n";
-            echo "Für weitere Informationen geben Sie 'php print_shape.php -h' ein.\n";
-            echo "\n";
-        }
-    }else{
+    if ($shape == false){
         echo "\n";
         echo "Die gewählte Form wurde nicht erkannt.\n";
         echo "Für weitere Informationen geben Sie 'php print_shape.php -h' ein.\n";
         echo "\n";
+        return;
     }
+
+    $size = sh\set_size_with_interactive_mode();
+    if($size == false){
+        echo "\n";
+        echo "Die gewählte Form wurde nicht erkannt.\n";
+        echo "Für weitere Informationen geben Sie 'php print_shape.php -h' ein.\n";
+        echo "\n";
+        return;
+    }
+    sh\draw_shape_with_input_from_commandline($shape, $size);
 }
