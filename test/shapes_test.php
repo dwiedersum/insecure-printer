@@ -49,6 +49,15 @@ class shapes_testcase extends TestCase {
         $this->assertEquals("", shapes\build_rotated_square(-1));
     }
 
+    public function test_triangle_build(){
+        $this->assertEquals("   #\n  ###\n #####\n#######\n",
+                            shapes\build_triangle(4));
+        $this->assertEquals(" #\n###\n",
+                            shapes\build_triangle(2));
+        $this->assertEquals("", shapes\build_triangle(0));
+        $this->assertEquals("", shapes\build_triangle(-1));
+    }
+
     public function test_draw_shape(){
         $this->assertEquals("###\n###\n###\n",
                             shapes\draw_shape_with_input_from_commandline("square", 3));
@@ -56,8 +65,10 @@ class shapes_testcase extends TestCase {
                             shapes\draw_shape_with_input_from_commandline("arrow", 3));
         $this->assertEquals("  #\n ###\n#####\n ###\n  #\n",
                             shapes\draw_shape_with_input_from_commandline("rotated square", 3));
-        $this->assertEquals(false,
+        $this->assertEquals("  #\n ###\n#####\n",
                             shapes\draw_shape_with_input_from_commandline("triangle", 3));
+        $this->assertEquals(false,
+                            shapes\draw_shape_with_input_from_commandline("pyramid", 4));
     }
 
     public function test_open_help(){

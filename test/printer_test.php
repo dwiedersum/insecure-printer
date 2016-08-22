@@ -43,18 +43,20 @@ class printer_testcase extends TestCase {
 
     public function test_response_to_extension(){
         $this->assertEquals("Die Datei wurde erstellt.",
-                            printer\response_to_extension("php")["messages"]);
+                            printer\response_to_extension("php", "hello.txt")["messages"]);
         $this->assertEquals("Die Eingabe ist ungültig." .
                             " Bitte geben Sie eine Extension ein, die nicht mehr als 5 Zeichen besitzt.",
-                            printer\response_to_extension("phptxt")["messages"]);
+                            printer\response_to_extension("phptxt", "")["messages"]);
         $this->assertEquals("Es wurde keine Eingabe erkannt.",
-                            printer\response_to_extension("")["messages"]);
+                            printer\response_to_extension("", "")["messages"]);
+        $this->assertEquals("Die Datei existiert bereits.\nInhalt wird überschrieben.",
+                            printer\response_to_extension("php", "world.txt")["messages"]);
         $this->assertEquals(".php",
-                            printer\response_to_extension("php")["right_fileextension"]);
+                            printer\response_to_extension("php", "")["right_fileextension"]);
         $this->assertEquals(false,
-                            printer\response_to_extension("phptxt")["right_fileextension"]);
+                            printer\response_to_extension("phptxt", "")["right_fileextension"]);
         $this->assertEquals(false,
-                            printer\response_to_extension("")["right_fileextension"]);
+                            printer\response_to_extension("", "")["right_fileextension"]);
     }
 
     public function test_string_length(){

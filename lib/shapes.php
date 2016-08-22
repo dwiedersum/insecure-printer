@@ -55,6 +55,17 @@ function build_rotated_square($value, $i = 0){
     return $rotated_square_text;
 }
 
+function build_triangle($value, $i = 0){
+    while ($i < $value){
+        $i++;
+        $triangle_text .= whitespace_string($value - $i) . hash_length($i);
+        $i--;
+        $triangle_text .= hash_length ($i) . "\n";
+        $i++;
+    }
+    return $triangle_text;
+}
+
 function categorize_options_from_cli($options){
     if ($options == "help"){
         open_help($options);
@@ -94,6 +105,7 @@ function read_shape_with_interactive_mode(){
             case 'square':
             case 'arrow':
             case 'rotated square':
+            case 'triangle':
             return message_to_shape_choice($query_shape);
             break;
 
@@ -146,6 +158,12 @@ function draw_shape_with_input_from_commandline($shape, $size){
             $rotated_square = build_rotated_square($size);
             echo $rotated_square;
             return $rotated_square;
+            break;
+
+        case 'triangle':
+            $triangle = build_triangle($size);
+            echo $triangle;
+            return $triangle;
             break;
 
         default:
