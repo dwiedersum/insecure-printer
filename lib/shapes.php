@@ -18,6 +18,7 @@ function whitespace_string($value){
 }
 
 function build_square($value, $i = 0){
+    $square_text = "";
     while($i < $value){
         $square_text .= hash_length($value) . "\n";
         $i++;
@@ -26,6 +27,7 @@ function build_square($value, $i = 0){
 }
 
 function build_arrow($value, $i = 0){
+    $arrow_text = "";
     while ($i < $value){
         $i++;
         $arrow_text .= hash_length($i) . "\n";
@@ -38,6 +40,7 @@ function build_arrow($value, $i = 0){
 }
 
 function build_rotated_square($value, $i = 0){
+    $rotated_square_text = "";
     while ($i < $value){
         $i++;
         $rotated_square_text .= whitespace_string($value - $i) . hash_length($i);
@@ -56,6 +59,7 @@ function build_rotated_square($value, $i = 0){
 }
 
 function build_triangle($value, $i = 0){
+    $triangle_text = "";
     while ($i < $value){
         $i++;
         $triangle_text .= whitespace_string($value - $i) . hash_length($i);

@@ -35,7 +35,7 @@ class printer_testcase extends TestCase {
     public function test_read_filename_via_interactive_shell(){
         $this->assertEquals(false, printer\read_filename_via_interactive_shell(false));
         $this->assertEquals("help", printer\read_filename_via_interactive_shell("help"));
-        $this->assertEquals(false, printer\read_filename_via_interactive_shell(array("shape" => "square")));
+        $this->assertEquals(false, printer\read_filename_via_interactive_shell(array("shape" => "square", "message" => "hi")));
         $this->assertEquals("\nDatei konnte nicht gefunden werden.\n\n",
                             printer\read_filename_via_interactive_shell(array("filename" => "print.txt")));
         $this->assertEquals(null, printer\read_filename_via_interactive_shell("asdf"));
