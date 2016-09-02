@@ -5,8 +5,21 @@ require("../lib/shapes.php");
 
 use PHPUnit\Framework\TestCase;
 use shapes;
+use shapes\Figure;
 
 class shapes_testcase extends TestCase {
+
+    public function test_if_figure_has_default_shape(){
+        $square = new Figure();
+        $this->assertEquals("square", $square->shape);
+    }
+
+    public function test_if_figure_has_defaults(){
+        $square = new Figure();
+        $this->assertEquals("square", $square->shape);
+        $this->assertEquals(3, $square->size);
+        $this->assertEquals("#", $square->filler);
+    }
 
     public function test_whitespace_string(){
         $this->assertEquals("", shapes\whitespace_string(0));

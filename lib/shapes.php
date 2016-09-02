@@ -1,6 +1,17 @@
 <?php
 namespace shapes;
 
+class Figure{
+    public $shape;
+    public $size;
+    public $filler;
+    public function __construct($shape = "square", $size = 3, $filler = "#"){
+        $this->shape = $shape;
+        $this->size = $size;
+        $this->filler = $filler;
+    }
+}
+
 function pad_left_and_right($word, $number_of_whitespaces){
     $whitespace_string = str_repeat(" ", $number_of_whitespaces);
 
