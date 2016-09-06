@@ -9,6 +9,26 @@ class Figure{
         $this->shape = $shape;
         $this->size = $size;
         $this->filler = $filler;
+        if($size > 50){
+            throw new \InvalidArgumentException("Size is not allowed to be higher than 50\n");
+        }elseif(!is_numeric($size)){
+            throw new \InvalidArgumentException("Size has to be a number\n");
+        }elseif($size <= 0){
+            throw new \InvalidArgumentException("Size is too small\n");
+        }elseif(is_numeric($shape)){
+            throw new \InvalidArgumentException("Shape has to be a word\n");
+        }else{
+            switch($shape){
+                case "square":
+                case "triangle":
+                case "rotated square":
+                case "arrow":
+                    break;
+                default:
+                    throw new \InvalidArgumentException("Shape has to be either: triangle, arrow, square or rotated square\n");
+                    break;
+            }
+        }
     }
 }
 
@@ -122,19 +142,9 @@ function open_help($options = null){
 }
 
 function read_shape_with_interactive_mode(){
-        $query_shape = readline("Bitte geben Sie eine Form ein:\n");
-        readline_add_history($query_shape);
-        switch ($query_shape){
-            case 'square':
-            case 'arrow':
-            case 'rotated square':
-            case 'triangle':
-            return message_to_shape_choice($query_shape);
-            break;
-
-            default:
-            return false;
-        }
+    $query_shape = readline("Bitte geben Sie eine Form ein:\n");
+    readline_add_history($query_shape);
+    return $query_shape;
 }
 
 function message_to_shape_choice($shape){
@@ -144,23 +154,14 @@ function message_to_shape_choice($shape){
         echo "\n";
         return $shape;
     }else{
-        echo "Die gewünschte geometrische Form kann nicht gebaut werden.\n" .
-             "Für weitere Informationen geben Sie 'php print_shape.php -h' ein.\n\n";
         return false;
     }
 }
 
 function set_size_with_interactive_mode(){
-        $query_size = readline("Bitte geben Sie eine Größe ein:\n");
-        readline_add_history($query_size);
-        if (is_numeric($query_size) == true && $query_size <= 50){
-            echo "\n";
-            echo "Die gewählte Größe lautet: " . $query_size . "\n";
-            echo "\n";
-            return $query_size;
-        }else{
-            return false;
-        }
+    $query_size = readline("Bitte geben Sie eine Größe ein:\n");
+    readline_add_history($query_size);
+    return $query_size;
 }
 
 function set_filler_with_interactive_mode(){

@@ -21,6 +21,43 @@ class shapes_testcase extends TestCase {
         $this->assertEquals("#", $square->filler);
     }
 
+    public function test_if_size_is_valid(){
+        try{
+            $square = new Figure("square", -1);
+            $this->fail("exception not thrown");
+        }catch(\Exception $e){
+            $this->assertEquals("Size is too small\n", $e->getMessage());
+            $this->assertEquals("InvalidArgumentException", get_class($e));
+        }
+        try{
+            $square = new Figure("square", "asdf");
+            $this->fail("exception not thrown");
+        }catch(\Exception $e){
+            $this->assertEquals("Size has to be a number\n", $e->getMessage());
+        }
+        try{
+            $square = new Figure("square", 55);
+            $this->fail("exception not thrown");
+        }catch(\Exception $e){
+            $this->assertEquals("Size is not allowed to be higher than 50\n", $e->getMessage());
+        }
+    }
+
+    public function test_if_shape_is_valid(){
+        try{
+            $square = new Figure("pyramid");
+            $this->fail("exception not thrown");
+        }catch(\Exception $e){
+            $this->assertEquals("Shape has to be either: triangle, arrow, square or rotated square\n", $e->getMessage());
+        }
+        try{
+            $square = new Figure("132");
+            $this->fail("exception not thrown");
+        }catch(\Exception $e){
+            $this->assertEquals("Shape has to be a word\n", $e->getMessage());
+        }
+    }
+
     public function test_whitespace_string(){
         $this->assertEquals("", shapes\whitespace_string(0));
         $this->assertEquals("     ", shapes\whitespace_string(5));
@@ -77,7 +114,6 @@ class shapes_testcase extends TestCase {
         $arrow = new Figure("arrow");
         $rotated_square = new Figure("rotated square");
         $triangle = new Figure("triangle", 3, "-");
-        $pyramid = new Figure("pyramid", 4);
         $this->assertEquals("---\n---\n---\n",
                             shapes\draw_shape_with_input_from_commandline($square));
         $this->assertEquals("#\n##\n###\n##\n#\n",
@@ -86,8 +122,6 @@ class shapes_testcase extends TestCase {
                             shapes\draw_shape_with_input_from_commandline($rotated_square));
         $this->assertEquals("  -\n ---\n-----\n",
                             shapes\draw_shape_with_input_from_commandline($triangle));
-        $this->assertEquals(false,
-                            shapes\draw_shape_with_input_from_commandline($pyramid));
     }
 
     public function test_open_help(){
