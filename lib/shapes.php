@@ -11,23 +11,25 @@ class Figure{
         $this->filler = $filler;
         if($size > 50){
             throw new \InvalidArgumentException("Size is not allowed to be higher than 50\n");
-        }elseif(!is_numeric($size)){
+        }
+        if(!is_numeric($size)){
             throw new \InvalidArgumentException("Size has to be a number\n");
-        }elseif($size <= 0){
+        }
+        if($size <= 0){
             throw new \InvalidArgumentException("Size is too small\n");
-        }elseif(is_numeric($shape)){
+        }
+        if(is_numeric($shape)){
             throw new \InvalidArgumentException("Shape has to be a word\n");
-        }else{
-            switch($shape){
-                case "square":
-                case "triangle":
-                case "rotated square":
-                case "arrow":
-                    break;
-                default:
-                    throw new \InvalidArgumentException("Shape has to be either: triangle, arrow, square or rotated square\n");
-                    break;
-            }
+        }
+        switch($shape){
+            case "square":
+            case "triangle":
+            case "rotated square":
+            case "arrow":
+                break;
+            default:
+                throw new \InvalidArgumentException("Shape has to be either: triangle, arrow, square or rotated square\n");
+                break;
         }
     }
 }
