@@ -1,7 +1,7 @@
 <?php
 namespace test\shapes;
 
-require("../lib/shapes.php");
+require_once("../lib/shapes.php");
 
 use PHPUnit\Framework\TestCase;
 use shapes;
@@ -63,11 +63,11 @@ class shapes_testcase extends TestCase {
         $this->assertEquals("     ", shapes\whitespace_string(5));
     }
 
-    public function test_pad_left_and_right_with_spaces(){
+    public function test_whitespace_left_and_right_with_spaces(){
         $this->assertEquals("   Hallo   ",
-                           shapes\pad_left_and_right("Hallo", 3));
+                           shapes\whitespace_left_and_right("Hallo", 3));
         $this->assertEquals("  Test  ",
-                           shapes\pad_left_and_right("Test", 2));
+                           shapes\whitespace_left_and_right("Test", 2));
     }
 
     public function test_filler_string(){
