@@ -26,6 +26,21 @@ class big_shapes_testcase extends TestCase {
                              [1, 1, 1, 1]], sa\shape_array($square));
     }
 
+    public function test_triangle_with_size_3_produces_right_array(){
+        $square = new Figure("triangle", 3);
+        $this->assertEquals([[1, 0, 0],
+                             [1, 1, 0],
+                             [1, 1, 1]], sa\shape_array($square));
+    }
+
+    public function test_triangle_with_size_4_produces_right_array(){
+        $square = new Figure("triangle", 4);
+        $this->assertEquals([[1, 0, 0, 0],
+                             [1, 1, 0, 0],
+                             [1, 1, 1, 0],
+                             [1, 1, 1, 1]], sa\shape_array($square));
+    }
+
     public function test_big_figure_array_with_size_1(){
         $filler = new Figure("square", 2);
         $square = new BigFigure("square", 1, $filler);
@@ -37,9 +52,10 @@ class big_shapes_testcase extends TestCase {
     public function test_big_figure_array_with_size_2(){
         $filler = new Figure("square", 2);
         $square = new BigFigure("square", 2, $filler);
-        $this->assertEquals([[1, 1, 1, 1],
-                             [1, 1, 1, 1],
-                             [1, 1, 1, 1],
-                             [1, 1, 1, 1]], sa\big_shape_array($square));
+        $this->assertEquals([[1, 1, 0, 1, 1],
+                             [1, 1, 0, 1, 1],
+                             [0, 0, 0, 0, 0],
+                             [1, 1, 0, 1, 1],
+                             [1, 1, 0, 1, 1]], sa\big_shape_array($square));
     }
 }
