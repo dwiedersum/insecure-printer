@@ -127,3 +127,98 @@ function draw_big_shape($big_figure){
     }
     return $shape_text;
 }
+
+function categorize_options_from_cli($options){
+    if($options == "help"){
+        $help = help_message();
+    }elseif(is_array($options)){
+            return $options;
+    }else{
+        echo $options;
+        return $options;
+    }
+}
+
+function help_message(){
+    echo "\n";
+    echo "set of options:\n\n";
+    echo "draw shape with direct input:\n\n";
+    echo "--shape" . pad_left_and_right(" ", 2) .
+         "draw a big shape with a filler if it is available\n" . pad_left_and_right("", 6) .
+         "available fillers and shapes are: square, arrow, rotated square, triangle\n\n";
+    echo "--repeat" . pad_left_and_right("", 2) .
+         "change the size of the build shape\n" .
+         pad_left_and_right("", 6) . "max size = 10\n\n";
+    echo "--filler" . pad_left_and_right("", 2) .
+         "set small shape as filler to draw the big shape(default: 'square')\n\n";
+    echo "--size" . pad_left_and_right("", 3) .
+         "optional -> set size of the fillers\n\n\n" .
+         pad_left_and_right("", 6) . "max size = 5\n\n";
+    echo "draw shape with input in CLI:\n\n";
+    echo "-i" . pad_left_and_right("", 5) .
+         "activate interactive mode to insert the values for the shape\n\n";
+}
+
+function check_if_size_is_valid($size){
+    if(!is_numeric($size)){
+        echo "'size' muss eine Zahl sein\n" .
+             "der Default-Wert für size wird verwendet.(3)\n";
+        return 3;
+    }elseif($size <= 0){
+        echo "'size' ist zu klein\n" .
+             "der Default-Wert für size wird verwendet.(3)\n";
+        return 3;
+    }elseif($size > 5){
+        echo "'size' darf nicht größer als 5 sein\n" .
+             "der Default-Wert für size wird verwendet.(3)\n";
+        return 3;
+    }else{
+        return $size;
+    }
+}
+
+function read_options_from_input(){
+    $shape = read_shape();
+    $repeat = read_repeat();
+    $filler = read_filler();
+    $size = read_size();
+    $figure_array = array("shape" => $shape, "repeat" => $repeat, "filler" => $filler, "size" => $size);
+    return $figure_array;
+}
+
+function read_shape(){
+    $shape = readline("Bitte wählen Sie eine Form für Ihre Figur.\n" .
+                      "Folgende Figuren stehen Ihnen zur Auswahl:\n" .
+                      "'square', 'triangle', 'arrow', 'rotated square'\n");
+    readline_add_history($shape);
+    $shape = strtolower($shape);
+    return $shape;
+}
+
+function read_repeat(){
+    $repeat = readline("Wie groß soll Ihre Form sein? (max = 10)\n");
+    readline_add_history($repeat);
+    return $repeat;
+}
+
+function read_filler(){
+    $filler = readline("Welche Filler möchten Sie benutzen?\n" .
+                       "Folgende Filler stehen Ihnen zur Auswahl:\n" .
+                       "'square', 'triangle', 'arrow', 'rotated square'\n");
+    readline_add_history($filler);
+    $filler = strtolower($filler);
+    return $filler;
+}
+
+function read_size(){
+    $check = readline("Möchten Sie die Größe der Filler anpassen? (y/n)\n");
+    readline_add_history($check);
+    if($check == "y" || $check == "yes" || $check == "ja"){
+        $size = readline("Welche Größe sollen Ihre Filler haben?\n");
+        readline_add_history($size);
+        return $size;
+    }
+    echo "Der Default-Wert '3' wird verwendet.\n";
+    $size = 3;
+    return $size;
+}
