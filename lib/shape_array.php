@@ -1,6 +1,50 @@
 <?php
 namespace shape_array;
 
+class BigFigure{
+    public $shape;
+    public $size;
+    public $filler;
+    public function __construct($shape = "square", $repeat = 3, $filler = "square", $size = 3){
+        $this->shape = $shape;
+        $this->repeat = $repeat;
+        $this->filler = $filler;
+        $this->size = $size;
+        if($repeat > 10){
+            throw new \InvalidArgumentException("Size is not allowed to be higher than 10\n");
+        }
+        if(!is_numeric($repeat)){
+            throw new \InvalidArgumentException("Size has to be a number\n");
+        }
+        if($repeat <= 0){
+            throw new \InvalidArgumentException("Size is too small\n");
+        }
+        if(is_numeric($shape)){
+            throw new \InvalidArgumentException("Shape has to be a word\n");
+        }
+        switch($shape){
+            case "square":
+            case "triangle":
+            case "rotated square":
+            case "arrow":
+                break;
+            default:
+                throw new \InvalidArgumentException("Shape has to be either: triangle, arrow, square or rotated square\n");
+                break;
+        }
+        /*switch($filler){
+            case "square":
+            case "triangle":
+            case "rotated square":
+            case "arrow":
+                break;
+            default:
+                throw new \InvalidArgumentException("Filler has to be either: triangle, arrow, square or rotated square\n");
+                break;
+        }*/
+    }
+}
+
 function shape_array($figure){
     switch ($figure->shape){
         case 'square':
@@ -71,16 +115,15 @@ function big_shape_array($big_figure){
 function draw_big_shape($big_figure){
     $big_shape_array = big_shape_array($big_figure);
     $shape_text = "";
-    foreach($big_shape_array as $line_chunk){
-        foreach ($line_chunk as $line){
-            foreach($line as $numbers){
-                if($numbers == 0){
-                    $shape_text .= "";
-                }elseif($numbers == 1){
-                    $shape_text .= "#";
-                }
+    foreach($big_shape_array as $line){
+        foreach($line as $numbers){
+            if($numbers == 0){
+                $shape_text .= " ";
+            }else{
+                $shape_text .= "#";
             }
-            $shape_text .= "\n";
         }
+        $shape_text .= "\n";
     }
+    return $shape_text;
 }
