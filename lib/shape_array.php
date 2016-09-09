@@ -61,6 +61,14 @@ function shape_array($figure){
         return triangle_array($figure);
         break;
 
+        case 'arrow':
+        return arrow_array($figure);
+        break;
+
+        case 'rotated square':
+        return rotated_square_array($figure);
+        break;
+
         default:
         echo "Ich kann diese Form nicht finden\n";
         break;
@@ -74,9 +82,9 @@ function square_array($figure){
 }
 
 function triangle_array($figure){
-    $triangle_array = array();
     $array_of_array = array();
     for($i = 0; $i < $figure->size; $i++){
+        $triangle_array = array();
         for($j = 0; $j < $figure->size; $j++){
             if($j <= $i){
                 $triangle_array[] = 1;
@@ -85,7 +93,60 @@ function triangle_array($figure){
             }
         }
         $array_of_array[] = $triangle_array;
-        $triangle_array = array();
+    }
+    return $array_of_array;
+}
+
+function arrow_array($figure){
+    $array_of_array = array();
+    for($i = 0; $i < round($figure->size/2); $i++){
+        $arrow_array = array();
+        for($j = 0; $j < $figure->size; $j++){
+            if($j <= $i){
+                $arrow_array[] = 1;
+            }else{
+                $arrow_array[] = 0;
+            }
+        }
+        $array_of_array[] = $arrow_array;
+    }
+    for($i = 0; $i < floor($figure->size/2); $i++){
+        $arrow_array = array();
+        for($j = $figure->size; $j > 0; $j--){
+            if($j - round($figure->size/2) > $i){
+                $arrow_array[] = 1;
+            }else{
+                $arrow_array[] = 0;
+            }
+        }
+        $array_of_array[] = $arrow_array;
+    }
+    return $array_of_array;
+}
+
+function rotated_square_array($figure){
+    $array_of_array = array();
+    for($i = 0; $i < round($figure->size/2); $i++){
+        $rotated_square_array = array();
+        for($j = 0; $j < $figure->size; $j++){
+            if($j >= round($figure->size/2) - ($i + 1) && $j <= round($figure->size/2) + ($i - 1)){
+                $rotated_square_array[] = 1;
+            }else{
+                $rotated_square_array[] = 0;
+            }
+        }
+        $array_of_array[] = $rotated_square_array;
+    }
+    for($i = floor($figure->size/2); $i > 0; $i--){
+        $rotated_square_array = array();
+        for($j = 0; $j < $figure->size; $j++){
+            if($j > round($figure->size/2) - ($i + 1) && $j < round($figure->size/2) + ($i - 1)){
+                $rotated_square_array[] = 1;
+            }else{
+                $rotated_square_array[] = 0;
+            }
+        }
+        $array_of_array[] = $rotated_square_array;
     }
     return $array_of_array;
 }

@@ -43,21 +43,6 @@ class shapes_testcase extends TestCase {
         }
     }
 
-    public function test_if_shape_is_valid(){
-        try{
-            $square = new Figure("pyramid");
-            $this->fail("exception not thrown");
-        }catch(\Exception $e){
-            $this->assertEquals("Shape has to be either: triangle, arrow, square or rotated square\n", $e->getMessage());
-        }
-        try{
-            $square = new Figure("132");
-            $this->fail("exception not thrown");
-        }catch(\Exception $e){
-            $this->assertEquals("Shape has to be a word\n", $e->getMessage());
-        }
-    }
-
     public function test_whitespace_string(){
         $this->assertEquals("", shapes\whitespace_string(0));
         $this->assertEquals("     ", shapes\whitespace_string(5));
