@@ -1,13 +1,12 @@
 <?php
 
-require("../lib/shape_array");
-require("../lib/CLI");
+require("../lib/shape_array.php");
+require("../lib/CLI.php");
 
 use shape_array as sa;
 use shape_array\BigFigure;
-use CLI;
 
-$options = CLI\check_options_from_commandline();
+$options = CLI\check_options_from_commandline("big_figure.php");
 $options = sa\categorize_options_from_cli($options);
 if(is_array($figure_options)){
     if(isset($options["size"])){
