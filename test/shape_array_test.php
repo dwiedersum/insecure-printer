@@ -79,4 +79,13 @@ class big_shapes_testcase extends TestCase {
         $this->assertEquals([[1, 0, 0, 1, 0],
                              [1, 1, 0, 1, 1]], sa\build_line_chunk($square_2));
     }
+
+    public function test_draw_big_shape_with_size_1(){
+        $filler = new Figure("square", 2);
+        $triangle_filler = new Figure("triangle", 2);
+        $square = new BigFigure("square", 1, $filler);
+        $square_2 = new BigFigure("square", 1, $triangle_filler);
+        $this->assertEquals("##\n##\n", sa\draw_big_shape($square));
+        $this->assertEquals("# \n##\n", sa\draw_big_shape($square_2));
+    }
 }

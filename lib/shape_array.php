@@ -67,3 +67,20 @@ function big_shape_array($big_figure){
     $special_line = array_fill(0, $line_number, 0);
     return create_chunk_with_seperator($line_chunk, $big_figure->repeat, $special_line);
 }
+
+function draw_big_shape($big_figure){
+    $big_shape_array = big_shape_array($big_figure);
+    $shape_text = "";
+    foreach($big_shape_array as $line_chunk){
+        foreach ($line_chunk as $line){
+            foreach($line as $numbers){
+                if($numbers == 0){
+                    $shape_text .= "";
+                }elseif($numbers == 1){
+                    $shape_text .= "#";
+                }
+            }
+            $shape_text .= "\n";
+        }
+    }
+}
