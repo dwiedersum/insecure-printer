@@ -21,7 +21,7 @@ class Figure{
         if(is_numeric($shape)){
             throw new \InvalidArgumentException("Shape has to be a word\n");
         }
-        switch($shape){
+        /*switch($shape){
             case "square":
             case "triangle":
             case "rotated square":
@@ -30,13 +30,12 @@ class Figure{
             default:
                 throw new \InvalidArgumentException("Shape has to be either: triangle, arrow, square or rotated square\n");
                 break;
-        }
+        }*/
     }
 }
 
-function pad_left_and_right($word, $number_of_whitespaces){
+function whitespace_left_and_right($word, $number_of_whitespaces){
     $whitespace_string = str_repeat(" ", $number_of_whitespaces);
-
     return $whitespace_string . $word . $whitespace_string;
 }
 
@@ -126,16 +125,16 @@ function open_help($options = null){
         echo "\n";
         echo "set of options:\n\n";
         echo "draw shape with direct input:\n\n";
-        echo "--shape" . pad_left_and_right(" ", 2) .
-             "draw shape with a character if it is available\n" . pad_left_and_right("", 6) .
+        echo "--shape" . whitespace_left_and_right(" ", 2) .
+             "draw shape with a character if it is available\n" . whitespace_left_and_right("", 6) .
              "available shapes are: square, arrow, rotated square, triangle\n\n";
-        echo "--size" . pad_left_and_right("", 3) .
+        echo "--size" . whitespace_left_and_right("", 3) .
              "change the size of the build shape\n" .
              "max size = 50\n\n";
-        echo "--filler" . pad_left_and_right("", 2) .
+        echo "--filler" . whitespace_left_and_right("", 2) .
              "set character to draw the shape(default: '#')\n\n\n";
         echo "draw shape with input in CLI:\n\n";
-        echo "-i" . pad_left_and_right("", 5) .
+        echo "-i" . whitespace_left_and_right("", 5) .
              "activate interactive mode to insert the values for the shape\n\n";
         return true;
     }else{
