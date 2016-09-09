@@ -68,4 +68,15 @@ class big_shapes_testcase extends TestCase {
                              [1, 0, 0, 1, 0],
                              [1, 1, 0, 1, 1]], sa\big_shape_array($square_2));
     }
+
+    public function test_line_chunk(){
+        $filler = new Figure("square", 2);
+        $triangle_filler = new Figure("triangle", 2);
+        $square = new BigFigure("square", 2, $filler);
+        $square_2 = new BigFigure("square", 2, $triangle_filler);
+        $this->assertEquals([[1, 1, 0, 1, 1],
+                             [1, 1, 0, 1, 1]], sa\build_line_chunk($square));
+        $this->assertEquals([[1, 0, 0, 1, 0],
+                             [1, 1, 0, 1, 1]], sa\build_line_chunk($square_2));
+    }
 }

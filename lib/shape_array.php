@@ -40,23 +40,27 @@ function triangle_array($figure){
     return $array_of_array;
 }
 
-function big_shape_array($big_figure){
+function build_line_chunk($big_figure){
     $small_figure = shape_array($big_figure->filler);
-    $line_number = $big_figure->repeat * $big_figure->filler->size + $big_figure->repeat - 1;
-    $big_figure_array = array();
-    $line = array();
     $line_chunk = array();
-    $special_line = array_fill(0, $line_number, 0);
     foreach($small_figure as $line_array){
+        $line = array();
         for($i = 0; $i < $big_figure->repeat; $i++){
             $line = array_merge($line, $line_array);
             if($i + 1 < $big_figure->repeat){
                 $line[] = 0;
             }
         }
+        $line_chunk[] = $line;
     }
-    $line_chunk = array_chunk($line, $line_number);
-    var_dump($line_chunk);
+    return $line_chunk;
+}
+
+function big_shape_array($big_figure){
+    $line_chunk = build_line_chunk($big_figure);
+    $line_number = $big_figure->repeat * $big_figure->filler->size + $big_figure->repeat - 1;
+    $big_figure_array = array();
+    $special_line = array_fill(0, $line_number, 0);
     for($i = 0; $i < $big_figure->repeat; $i++){
         $big_figure_array = array_merge($big_figure_array, $line_chunk);
         if($i +1 < $big_figure->repeat){
