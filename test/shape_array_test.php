@@ -48,8 +48,8 @@ class big_shapes_testcase extends TestCase {
         $square_2 = new BigFigure("square", 1, $triangle_filler);
         $this->assertEquals([[1, 1],
                              [1, 1]], sa\big_shape_array($square));
-        $this->assertEquals([1, 0],
-                            [1, 1], sa\big_shape_array($square_2));
+        $this->assertEquals([[1, 0],
+                            [1, 1]], sa\big_shape_array($square_2));
     }
 
     public function test_big_figure_array_with_size_2(){

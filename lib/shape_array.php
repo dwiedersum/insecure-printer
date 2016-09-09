@@ -47,15 +47,16 @@ function big_shape_array($big_figure){
     $line = array();
     $line_chunk = array();
     $special_line = array_fill(0, $line_number, 0);
-    for($i = 0; $i < $big_figure->repeat; $i++){
-        $line = array_merge($line, $small_figure[0]);
-        if($i +1 < $big_figure->repeat){
-            $line[] = 0;
+    foreach($small_figure as $line_array){
+        for($i = 0; $i < $big_figure->repeat; $i++){
+            $line = array_merge($line, $line_array);
+            if($i + 1 < $big_figure->repeat){
+                $line[] = 0;
+            }
         }
     }
-    for($i = 0; $i < $big_figure->filler->size; $i++){
-        $line_chunk[] = $line;
-    }
+    $line_chunk = array_chunk($line, $line_number);
+    var_dump($line_chunk);
     for($i = 0; $i < $big_figure->repeat; $i++){
         $big_figure_array = array_merge($big_figure_array, $line_chunk);
         if($i +1 < $big_figure->repeat){
