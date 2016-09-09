@@ -21,7 +21,7 @@ class Figure{
         if(is_numeric($shape)){
             throw new \InvalidArgumentException("Shape has to be a word\n");
         }
-        switch($shape){
+        /*switch($shape){
             case "square":
             case "triangle":
             case "rotated square":
@@ -30,7 +30,7 @@ class Figure{
             default:
                 throw new \InvalidArgumentException("Shape has to be either: triangle, arrow, square or rotated square\n");
                 break;
-        }
+        }*/
     }
 }
 

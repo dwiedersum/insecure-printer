@@ -45,6 +45,12 @@ class BigFigure{
     }
 }
 
+function pad_left_and_right($word, $number_of_whitespaces){
+    $whitespace_string = str_repeat(" ", $number_of_whitespaces);
+
+    return $whitespace_string . $word . $whitespace_string;
+}
+
 function shape_array($figure){
     switch ($figure->shape){
         case 'square':
@@ -152,8 +158,8 @@ function help_message(){
     echo "--filler" . pad_left_and_right("", 2) .
          "set small shape as filler to draw the big shape(default: 'square')\n\n";
     echo "--size" . pad_left_and_right("", 3) .
-         "optional -> set size of the fillers\n\n\n" .
-         pad_left_and_right("", 6) . "max size = 5\n\n";
+         "optional -> set size of the fillers\n" .
+         pad_left_and_right("", 6) . "max size = 5\n\n\n";
     echo "draw shape with input in CLI:\n\n";
     echo "-i" . pad_left_and_right("", 5) .
          "activate interactive mode to insert the values for the shape\n\n";
@@ -187,9 +193,7 @@ function read_options_from_input(){
 }
 
 function read_shape(){
-    $shape = readline("Bitte wählen Sie eine Form für Ihre Figur.\n" .
-                      "Folgende Figuren stehen Ihnen zur Auswahl:\n" .
-                      "'square', 'triangle', 'arrow', 'rotated square'\n");
+    $shape = readline("Bitte wählen Sie eine Form für Ihre Figur.\n");
     readline_add_history($shape);
     $shape = strtolower($shape);
     return $shape;
@@ -202,9 +206,7 @@ function read_repeat(){
 }
 
 function read_filler(){
-    $filler = readline("Welche Filler möchten Sie benutzen?\n" .
-                       "Folgende Filler stehen Ihnen zur Auswahl:\n" .
-                       "'square', 'triangle', 'arrow', 'rotated square'\n");
+    $filler = readline("Welche Filler möchten Sie benutzen?\n");
     readline_add_history($filler);
     $filler = strtolower($filler);
     return $filler;
